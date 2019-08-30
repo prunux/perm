@@ -1,0 +1,10 @@
+#if ##TABLE_DESC## ~ ^Z
+#else
+<small>
+#ifdef TABLE_TOOLTIP
+<a title="##TABLE_TOOLTIP##" href="##TABLE_URL##">##TABLE_DESC##</A>
+#else
+<a href="##TABLE_URL##">##TABLE_DESC##</A>
+#endif
+</small>&nbsp;&nbsp;
+#endif

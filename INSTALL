@@ -1,0 +1,59 @@
+Installation for Gedafe and Perm 2.0 
+=====================================
+
+Install on AWS
+--------------
+1. Launch EC2 Instance with Ubuntu 18.04 
+
+
+
+2. login to instance and gain superuser rights
+
+   ssh -i gedafe-test.pem ubuntu@ec2-54-171-159-0.eu-west-1.compute.amazonaws.com
+  
+3. create 'perm' and 'gedafe' user
+
+   sudo adduser perm
+   sudo adduser gedafe
+
+4. Install packages
+
+    sudo apt install etckeeper
+    sudo apt install apache2
+    sudo apt install libapache2-mod-fcgid
+    sudo apt install apache2-suexec-custom
+    sudo apt install make
+    sudo apt install gcc
+    sudo apt install postgresql-client-10
+    sudo apt install libdbi-perl
+    sudo apt install libdbd-pg-perl
+
+5. Configure Apache
+
+    a2enmod headers
+    a2enmod rewrite
+    a2enmod ssl
+    a2enmod userdir
+
+6. Install certbot
+
+    sudo apt-get update
+    sudo apt-get install software-properties-common
+    sudo add-apt-repository universe
+    sudo add-apt-repository ppa:certbot/certbot
+    sudo apt-get update
+
+    sudo apt-get install certbot python-certbot-apache 
+
+7. install Perl Modules
+
+    su - gedafe
+    cd /home/gedafe/thirdparty
+    ./build_gedafe.sh
+
+8. copy apache config file
+
+    cp apache-perm.conf /etc/apache2/sites-available/perm.conf
+    a2ensite perm.conf
+
+    sudo certbot --apache -d aws-perm-dev.prunux.ch

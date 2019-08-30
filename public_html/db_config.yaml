@@ -1,0 +1,4 @@
+---
+dbname: perm
+dbhost: perm.cluster-abcdefghijk.eu-west-1.rds.amazonaws.com
+dbport: 5432

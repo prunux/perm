@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+  <title>
+#ifdef DATABASE_DESC
+##DATABASE_DESC##
+#else
+Gedafe
+#endif
+  </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <style>
+
+  </style>
+</head>
+<body text="#000000" link="#0000FF" 
+#if ##USER## = admin
+
+bgcolor="#ffee00"
+#else
+
+bgcolor="#ffffff" 
+
+#endif
+ vlink="#0000FF" alink="#FF0000">
+
+#if ##TABLE## = absence_graph_rep
+
+<div id="navtxt" style="position:absolute; top:-100px; left:0px; visibility:hidden;"></div>
+<script language="javascript" src="alttxt.js"></script>
+
+#endif
+
+<table width="100%" cellpadding="2" border="0" cellspacing="0" >
+<tr>
+#ifdef DATABASE_DESC
+  <td width="100%"><font size="4"><b>##DATABASE_DESC##</b></font></td>
+#endif
+#ifdef USER
+  <td>User: <b>##USER##</b></td>
+#endif
+
+<td align="right"><table bgcolor="#a0a0a0" border="0" cellpadding="0" cellspacing="0">
+  <tr><td>
+    <table border="0" cellpadding="5" cellspacing="1"><tr>
+#ifdef ENTRY_URL
+  <td bgcolor="#ffffff"><a href="##ENTRY_URL##">Entry</a></td>
+#endif
+
+#ifdef REFRESH_URL
+  <td bgcolor="#ffffff"><a href="##REFRESH_URL##">Refresh</a></td>
+#endif
+
+#ifdef PRINT_TOGGLE_URL
+#ifdef PRINT_TOGGLE_FLAG
+#if ##PRINT_TOGGLE_FLAG## = 1
+  <td bgcolor="#ffffff"><a href="##PRINT_TOGGLE_URL##">Screen format</a></td>
+#else
+  <td bgcolor="#ffffff"><a href="##PRINT_TOGGLE_URL##">Print format</a></td>
+#endif
+#endif
+#endif
+
+#ifdef LOGOUT_URL
+  <td bgcolor="#ffffff"><a href="##LOGOUT_URL##">Logout</a></td>
+#endif
+
+#ifdef DOCUMENTATION_URL
+  <td bgcolor="#ffffff"><a href="##DOCUMENTATION_URL##">Docs</a></td>
+#endif
+
+#ifdef BOOKMARK_URL
+  <td bgcolor="#ffffff"><a href="##BOOKMARK_URL##"><img SRC="images/bookmark.gif" alt="Bookmark" border="0"></a></td>
+#endif
+
+  </tr></table></td></tr></table></td>
+
+</tr></table>
