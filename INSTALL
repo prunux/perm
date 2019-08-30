@@ -9,9 +9,10 @@ Those steps beetween the digits and numbered with A. - Z. are steps for
 installing Gedafe, Perm 2.0 and Ubuntu 18.04 on AWS.
 
 Idea on AWS is to
-
-* use and run and AMI Image with EC2 Spot Instances oder EC2
 * use the AWS Aurora PostgreSQL Database in serverless Modules
+* create an golden Image with EC2, take a snapshot and create an AMI
+* use and run the AMI Image with EC2 Spot Instances oder EC2
+
 
 I. Initialize Create and Initialize Database
 --------------------------------------------
@@ -116,6 +117,9 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
       * Create an EC2 Instance
         https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/launching-instance.html
 
+      * Don't forget to create a security group with Port HTTP (80), and HTTPS (443)
+        and SSH (22) for the EC2 instance
+
  2. Login to Ubuntu 18.04 instance, gain super rights and download gedafe and perm checkouts
 
     ssh -i perm-test.pem ubuntu@MYINSTANCE.MYDOMAIN
@@ -126,51 +130,67 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
     wget https://gitlab.com/prunux/perm/-/archive/master/perm-master.tar.gz
     cd -
 
- 3. create a 'gedafe' and 'perm' linux user and keep user account passwords
+ 3. create a 'gedafe' and 'perm' linux user, keep user account passwords (and add your ssh key)
 
     sudo adduser --uid 1001 gedafe
-    sudo adduser --uid 1002 perm
+    # Full Name: Gedafe User
 
-    # keep offline account password
+    sudo adduser --uid 1002 perm
+    # Full Name: Perm User
+
+    # keep account password in your password safe
+
+    # and add if wished your SSH-KEY:
+    # #  ssh-copy-id -i perm-test.pem perm@MYINSTANCE.MYDOMAIN
+    # #  ssh-copy-id -i perm-test.pem gedafe@MYINSTANCE.MYDOMAIN
+    #
 
  4. extract gedafe-code to /home/gedafe
 
     sudo tar xzvf /tmp/gedafe-master.tar.gz -C /home/gedafe
+    sudo mv /home/gedafe/gedafe-master/* /home/gedafe/
+    sudo rm /home/gedafe/gedafe-master/.gitignore
+    sudo rmdir /home/gedafe/gedafe-master/
+    sudo chown -Rh gedafe:gedafe /home/gedafe
 
  5. extract perm-code to /home/perm
 
     sudo tar xzvf /tmp/perm-master.tar.gz -C /home/perm
+    sudo mv /home/perm/perm-master/* /home/perm/
+    sudo rmdir /home/perm/perm-master/
+    sudo chown -Rh perm:perm /home/perm
 
  6. Update Ubuntu 18.04 system and install additional necessary packages for running perm and compiling necessary perl modules
 
     sudo apt update
-    sudo apt upgrade
+    sudo apt upgrade -y
 
-    sudo apt install postgresql-client-10
+    sudo apt install -y postgresql-client-10
 
-    sudo apt install apache2
-    sudo apt install libapache2-mod-fcgid
+    sudo apt install -y apache2
+    sudo apt install -y libapache2-mod-fcgid
 
-    sudo apt install libcgi-fast-perl
-    sudo apt install libdbi-perl
-    sudo apt install libdbd-pg-perl
-    sudo apt install libyaml-libyaml-perl
+    sudo apt install -y libcgi-fast-perl
+    sudo apt install -y libdbi-perl
+    sudo apt install -y libdbd-pg-perl
+    sudo apt install -y libyaml-libyaml-perl
 
  7. Install certbot
 
     sudo apt-get update
     sudo apt-get install software-properties-common
-    sudo add-apt-repository universe
-    sudo add-apt-repository ppa:certbot/certbot
+    sudo add-apt-repository -y universe
+    sudo add-apt-repository -y ppa:certbot/certbot
     sudo apt-get update
 
-    sudo apt-get install certbot python-certbot-apache
+    sudo apt-get install -y certbot python-certbot-apache
 
 8.  Preconfigure Apache
 
     sudo a2enmod headers
     sudo a2enmod rewrite
     sudo a2enmod ssl
+    sudo systemctl restart apache2
 
  9. adapt apache configuration and configure domain
 
@@ -183,19 +203,22 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
     # edit and configure correct domain name (needed also for TLS)
     sudo vim /etc/apache2/sites-available/MYSUBDOMAIN.MYDOMAIN.MYLTD.conf
 
+    # disable default webpage
+    sudo a2dissite 000-default.conf
+    sudo systemctl reload apache2
+
     # enable apache perm website
     sudo a2ensite MYSUBDOMAIN.MYDOMAIN.MYLTD.conf
-
     # check config and if okay, restart apache
     sudo apache2ctl configtest
-    sudo systemctl apache2 restart
+    sudo systemctl reload apache2
 
     # enable TLS and letsencrypt
-    sudo certbot --apache -d MYSUBDOMAIN.MYDOMAIN.MYLTD
+    sudo certbot --apache -d MYSUBDOMAIN.MYDOMAIN.MYLTD -m important.emailadress@MYDOMAIN.MYLTD --agree-tos -n
 
     # check config and if okay, restart apache
     sudo apache2ctl configtest
-    sudo systemctl apache2 restart
+    sudo systemctl reload apache2
 
 10. adopt database connection to correct and initialized database (see also part I. above)
 
@@ -203,7 +226,7 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
 
 11. enable gedafed systemd service at startup
 
-    sudo cp /home/gedafe/etc/systemd/system/gedafed.service /etc/systemd/system
+    sudo cp /home/gedafe/etc/systemd/system/gedafed.service /etc/systemd/system/
     sudo systemctl daemon-reload
     sudo systemctl start gedafed.service
     sudo systemctl status gedafed.service
@@ -212,6 +235,8 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
 
 III. AWS handling
 -----------------
+
+
 
 IV. HISTORY
 -----------
@@ -225,3 +250,43 @@ sudo apt install etckeeper
     su - gedafe
     cd /home/gedafe/thirdparty
     ./build_gedafe.sh
+
+
+V. NOTES
+--------
+
+License
+-------
+    Perm is a permission and access management system with RDMS.
+    Copyright (C) 2015-2019, Stiftung 3FO, CH-4600 Olten
+    Copyright (C) 2015-2019, Forem AG, CH-4600 Olten
+    Copyright (C) 2015-2019, Roman Plessl (prunux.ch)
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Copyright
+---------
+
+    Copyright (c) 2015-2019 Stiftung 3FO, Olten, All rights reserved.
+    Copyright (c) 2015-2019 Plessl + Burkhardt GmbH, All rights reserved.
+
+    This database design and code was donated and paid by
+
+        Stiftung 3FO, Belchenstrasse 7, CH-4600 Olten and
+        Forem AG, Belchenstrasse 7, CH-4600 Olten
+
+Authors
+-------
+
+   Roman Plessl
