@@ -1,4 +1,4 @@
 ---
 dbname: perm
-dbhost: perm.cluster-abcdefghijk.eu-west-1.rds.amazonaws.com
+dbhost: my.database.host
 dbport: 5432
