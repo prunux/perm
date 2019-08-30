@@ -1,11 +1,11 @@
 Installation for Gedafe and Perm 2.0 
 =====================================
 
+Documentation is WIP:
+
 Install on AWS
 --------------
 1. Launch EC2 Instance with Ubuntu 18.04 
-
-
 
 2. login to instance and gain superuser rights
 

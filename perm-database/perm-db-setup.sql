@@ -1,9 +1,31 @@
 -- #########################################################################
 -- # SQL source for the perm PostgreSQL database
+-- # 
+-- # This database design and code was donated by 
 -- #
--- # Created / Copyright by Roman Plessl <roman.plessl@prunux.ch>
--- # License: GPLv3 
--- # License Link: http://www.gnu.org/licenses/gpl-3.0.html
+-- #     Stiftung 3FO, CH-4600 Olten and
+-- #     Forem AG, CH-4600 Olten
+-- #
+-- # Code written by Roman Plessl <roman.plessl@prunux.ch>
+-- #
+-- #     Perm is a permission and access management system with RDMS.
+-- #     Copyright (C) 2015-2019, Stiftung 3FO, CH-4600 Olten
+-- #     Copyright (C) 2015-2019, Forem AG, CH-4600 Olten
+-- #     Copyright (C) 2015-2019, Roman Plessl (prunux.ch)
+-- # 
+-- #     This program is free software: you can redistribute it and/or modify
+-- #     it under the terms of the GNU General Public License as published by
+-- #     the Free Software Foundation, either version 3 of the License, or
+-- #     (at your option) any later version.
+-- # 
+-- #     This program is distributed in the hope that it will be useful,
+-- #     but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- #     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- #     GNU General Public License for more details.
+-- # 
+-- #     You should have received a copy of the GNU General Public License
+-- #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-- #
 -- #########################################################################
 
 -- #########################################################################
