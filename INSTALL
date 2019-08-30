@@ -16,7 +16,7 @@ Idea on AWS is to
 
 I. Initialize Create and Initialize Database
 --------------------------------------------
- 0. Install either the PostgreSQL Database on your host or use a managed 
+ 0. Install either the PostgreSQL Database on your host or use a managed
     PostgreSQL instance like AWS Aurora PostgreSQL or RDS PostgreSQL
 
  A1. Use the AWS Aurora PostgreSQL Serverless Edition
@@ -50,7 +50,7 @@ I. Initialize Create and Initialize Database
       * As the AWS Aurora PostgreSQL Serverless will not (maybe ever) have a
         public IP, I used this documented trick to fill the database structure.
 
-        Follow this manual from AWS with the following adaptions for using 
+        Follow this manual from AWS with the following adaptions for using
         PostgreSQL instead of MySQL:
 
         https://aws.amazon.com/getting-started/tutorials/configure-connect-serverless-mysql-database-aurora/
@@ -71,7 +71,7 @@ I. Initialize Create and Initialize Database
 
           * note the perm_master password, will be needed in the next step
 
-        * Connect to the perm database cluster and "slurp" database structure 
+        * Connect to the perm database cluster and "slurp" database structure
           and users:
 
           # psql -h perm.cluster-abcdefghijkl.eu-west-1.rds.amazonaws.com -U masterusername postgresql
@@ -96,7 +96,7 @@ I. Initialize Create and Initialize Database
 
      * note the perm_master password, will be needed in the next step
 
-  4. Connect to the perm database cluster and "slurp" database structure and 
+  4. Connect to the perm database cluster and "slurp" database structure and
      users:
 
      sudo su - postgres
@@ -122,7 +122,7 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
       * Don't forget to create a security group with Port HTTP (80), and HTTPS (443)
         and SSH (22) for the EC2 instance
 
- 2. Login to Ubuntu 18.04 instance, gain super rights and download gedafe and 
+ 2. Login to Ubuntu 18.04 instance, gain super rights and download gedafe and
     perm checkouts
 
     ssh -i perm-test.pem ubuntu@MYINSTANCE.MYDOMAIN
@@ -133,7 +133,7 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
     wget https://gitlab.com/prunux/perm/-/archive/master/perm-master.tar.gz
     cd -
 
- 3. create a 'gedafe' and 'perm' linux user, keep user account passwords (and 
+ 3. create a 'gedafe' and 'perm' linux user, keep user account passwords (and
     add your ssh key)
 
     sudo adduser --uid 1001 gedafe
@@ -164,7 +164,7 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
     sudo rmdir /home/perm/perm-master/
     sudo chown -Rh perm:perm /home/perm
 
- 6. Update Ubuntu 18.04 system and install additional necessary packages for 
+ 6. Update Ubuntu 18.04 system and install additional necessary packages for
     running perm and compiling necessary perl modules
 
     sudo apt update
@@ -195,6 +195,7 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
     sudo a2enmod headers
     sudo a2enmod rewrite
     sudo a2enmod ssl
+    sudo a2enmod userdir
     sudo systemctl restart apache2
 
  9. adapt apache configuration and configure domain
@@ -225,7 +226,7 @@ II. Webserver Ubuntu 18.04 with perm and gedafe code
     sudo apache2ctl configtest
     sudo systemctl reload apache2
 
-10. adopt database connection to correct and initialized database (see also 
+10. adopt database connection to correct and initialized database (see also
     part I. above)
 
     sudo vim /home/perm/public_html/db_config.yaml
