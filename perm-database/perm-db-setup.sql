@@ -1212,8 +1212,9 @@ COMMENT ON COLUMN all_things_combination_rep.active IS 'Aktiv';
 -- EOF
 
 --   Perm is a permission and access management system with RDMS.
---   Copyright (C) 2016, Roman Plessl (Plessl + Burkhardt GmbH)
---   Copyright (C) 2019, Roman Plessl (prunux.ch)
+--   Copyright (C) 2015-2019, Stiftung 3FO, CH-4600 Olten
+--   Copyright (C) 2015-2019, Forem AG, CH-4600 Olten
+--   Copyright (C) 2015-2019, Roman Plessl (prunux.ch)
 --
 --   This program is free software: you can redistribute it and/or modify
 --   it under the terms of the GNU General Public License as published by
