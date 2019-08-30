@@ -15,6 +15,92 @@ Idea on AWS is to
 
 I. Initialize Create and Initialize Database
 --------------------------------------------
+ 0. Install either the PostgreSQL Database on your host or use a managed PostgreSQL
+    instance like AWS Aurora PostgreSQL or RDS PostgreSQL
+
+ A1. Use the AWS Aurora PostgreSQL Serverless Edition
+
+     * Select a possible region for using the *Serveless* Edition
+       (Tested with eu-west-1 and us-east-1)
+
+     * Create a Database (Database Cluster)
+
+       Compatibility:     PostgreSQL 10.7 or above (tested)
+
+       Name:              perm
+       Master username:   ABCD_dbadmin (*NOT* perm_admin)
+       Capacity Settings: min. 2, max. 4 Aurora capacity unit
+       Security Group:    create a new SG "aurora-rds-sg"
+       Pause:             Pause compute capacity after consecutive
+                          minutes of inactivity 20 minutes
+       VPC:               Create new VPC
+
+     * Keep Database Connetion String
+       Endpoint:    e.g. perm.cluster-abcdefghijkl.eu-west-1.rds.amazonaws.com
+       Master-USER: masterusername
+       Master-PWD:  masterpassword
+
+    (* I have to Push the 'Create' Button twice, there seems be a CloudFormation
+       error in the creation of the new VPC; after selecting the new created
+       VPC after the first run / try, everything works as expected.)
+
+ A2.  Fill the Database with the 'perm' database structure, code and functions
+
+      * As the AWS Aurora PostgreSQL Serverless will not (maybe ever) have a
+        public IP, I used this documented trick to fill the database structure.
+
+        Follow this manual from AWS with the following adaptions for using PostgreSQL
+        instead of MySQL:
+
+        https://aws.amazon.com/getting-started/tutorials/configure-connect-serverless-mysql-database-aurora/
+
+        * Install in the Cloud9 Environment PostgreSQL 10 client in the Cloud9
+          terminal:
+
+          * sudo apt update
+          * sudo apt install postgresql-client-10
+
+        * Upload the perm-db-setup.sql and perm-db-users-setup.sql in Cloud9 editor
+          or download it directly in the Cloud9 terminal:
+
+          # wget https://gitlab.com/prunux/perm/raw/master/perm-database/perm-db-setup.sql
+          # wget https://gitlab.com/prunux/perm/raw/master/perm-database/perm-db-users-setup.sql
+
+        * adapt usernames and passwords in perm-db-users-setup.sql
+
+          * note the perm_master password, will be needed in the next step
+
+        * Connect to the perm database cluster and "slurp" database structure and users:
+
+          #  psql -h perm.cluster-abcdefghijkl.eu-west-1.rds.amazonaws.com -U masterusername postgresql
+          # > \i perm-db-setup.sql
+          # > \i perm-db-users-setup.sql
+
+        * check if there are no errors and if YES, DISCO DISCO PARTY PARTY (Step 1).
+
+ *OR*
+
+  1. Install the PostgreSQL Database on your Ubuntu 18.04:
+
+     sudo apt update
+     sudo apt install postgresql-10 postgresql-client-10
+
+  2. Download perm-db-setup.sql and perm-db-users-setup.sql:
+
+     wget https://gitlab.com/prunux/perm/raw/master/perm-database/perm-db-setup.sql
+     wget https://gitlab.com/prunux/perm/raw/master/perm-database/perm-db-users-setup.sql
+
+  3. adapt usernames and passwords in perm-db-users-setup.sql
+
+     * note the perm_master password, will be needed in the next step
+
+  4. Connect to the perm database cluster and "slurp" database structure and users:
+
+     sudo su - postgres
+     psql
+     > \i perm-db-setup.sql
+     > \i perm-db-users-setup.sql
+
 
 
 II. Webserver Ubuntu 18.04 with perm and gedafe code
