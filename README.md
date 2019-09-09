@@ -1,4 +1,3 @@
-
         ===========================================
         perm (the permission management system) 2.0
         ===========================================
@@ -16,9 +15,14 @@ Homepage
 
     https://gitlab.com/prunux/perm
 
+Screenshot
+----------
+
+![alt text](perm-screenshot.png "Screenshot of Perm")
 
 License
 -------
+
     Perm is a permission and access management system with RDMS.
     Copyright (C) 2015-2019, Stiftung 3FO, CH-4600 Olten
     Copyright (C) 2015-2019, Forem AG, CH-4600 Olten
