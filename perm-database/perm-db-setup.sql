@@ -37,7 +37,7 @@ CREATE GROUP perm_user;
 CREATE GROUP perm_admin;
 
 CREATE USER perm_master IN GROUP perm_admin, perm_user, perm;
-ALTER  USER perm_master WITH PASSWORD '*********';
+ALTER  USER perm_master WITH PASSWORD '1234abcdqwer';
 -- #########################################################################
 -- Setup the database
 -- ##########################################################################

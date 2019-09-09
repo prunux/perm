@@ -1,5 +1,4 @@
 ALTER USER perm_master with PASSWORD 'Zothee5yaehaic';
-\connect perm perm_master;
 
 CREATE USER  admin   with PASSWORD 'iisal8Eeca2ah1';
 ALTER  GROUP perm_user  ADD USER admin;
