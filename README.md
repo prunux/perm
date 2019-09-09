@@ -1,19 +1,18 @@
-        ===========================================
-        perm (the permission management system) 2.0
-        ===========================================
+perm (the permission management system) 2.0
+===========================================
 
 
 Documentation
 -------------
 
-    Perm is a web based permission management system based on the
-    gedafe toolkit (https://gedafe.github.com).
+Perm is a web based permission management system based on the
+gedafe toolkit (https://gedafe.github.com).
     
 
 Homepage
 --------
 
-    https://gitlab.com/prunux/perm
+https://gitlab.com/prunux/perm
 
 Screenshot
 ----------
@@ -55,4 +54,4 @@ Copyright
 Authors
 -------
 
-   Roman Plessl
+* Roman Plessl
